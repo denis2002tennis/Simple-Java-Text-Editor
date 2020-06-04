@@ -47,6 +47,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,11 +65,11 @@ public class UI extends JFrame implements ActionListener {
     private final JMenuBar menuBar;
     private final JComboBox<String> fontType;
     private final JComboBox<Integer> fontSize;
-    private final JMenu menuFile, menuEdit, menuFind, menuAbout;
-    private final JMenuItem newFile, openFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
-            aboutMe, aboutSoftware, wordWrap;
+    private final JMenu menuFile, menuEdit, menuFind;
+    private final JMenuItem newFile, openFile,printFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
+             wordWrap;
     private final JToolBar mainToolbar;
-    JButton newButton, openButton, saveButton, clearButton, quickButton, aboutMeButton, aboutButton, closeButton, boldButton, italicButton;
+    JButton newButton, openButton, saveButton, clearButton, quickButton, printButton, closeButton, boldButton, italicButton;
     private final Action selectAllAction;
 
     //setup icons - Bold and Italic
@@ -78,6 +79,7 @@ public class UI extends JFrame implements ActionListener {
     // setup icons - File Menu
     private final ImageIcon newIcon = new ImageIcon("icons/new.png");
     private final ImageIcon openIcon = new ImageIcon("icons/open.png");
+    private final ImageIcon printIcon = new ImageIcon("icons/print.png");
     private final ImageIcon saveIcon = new ImageIcon("icons/save.png");
     private final ImageIcon closeIcon = new ImageIcon("icons/close.png");
 
@@ -93,8 +95,8 @@ public class UI extends JFrame implements ActionListener {
     private final ImageIcon searchIcon = new ImageIcon("icons/search.png");
 
     // setup icons - Help Menu
-    private final ImageIcon aboutMeIcon = new ImageIcon("icons/about_me.png");
-    private final ImageIcon aboutIcon = new ImageIcon("icons/about.png");
+ //   private final ImageIcon aboutMeIcon = new ImageIcon("icons/about_me.png");
+  //  private final ImageIcon aboutIcon = new ImageIcon("icons/about.png");
 
     private SupportedKeywords kw = new SupportedKeywords();
     private HighlightText languageHighlighter = new HighlightText(Color.GRAY);
@@ -163,25 +165,26 @@ public class UI extends JFrame implements ActionListener {
         menuFile = new JMenu("File");
         menuEdit = new JMenu("Edit");
         menuFind = new JMenu("Search");
-        menuAbout = new JMenu("About");
+       // menuAbout = new JMenu("About");
         //Font Settings menu
 
         // Set the Items Menu
         newFile = new JMenuItem("New", newIcon);
         openFile = new JMenuItem("Open", openIcon);
+        printFile = new JMenuItem("Print", printIcon);
         saveFile = new JMenuItem("Save", saveIcon);
-        close = new JMenuItem("Quit", closeIcon);
+        close = new JMenuItem("Exit", closeIcon);
         clearFile = new JMenuItem("Clear", clearIcon);
         quickFind = new JMenuItem("Quick", searchIcon);
-        aboutMe = new JMenuItem("About Me", aboutMeIcon);
-        aboutSoftware = new JMenuItem("About Software", aboutIcon);
+       // aboutMe = new JMenuItem("About Me", aboutMeIcon);
+      //  aboutSoftware = new JMenuItem("About Software", aboutIcon);
 
         menuBar = new JMenuBar();
         menuBar.add(menuFile);
         menuBar.add(menuEdit);
         menuBar.add(menuFind);
 
-        menuBar.add(menuAbout);
+       // menuBar.add(menuAbout);
 
         this.setJMenuBar(menuBar);
 
@@ -205,6 +208,10 @@ public class UI extends JFrame implements ActionListener {
         saveFile.addActionListener(this);
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         menuFile.add(saveFile);
+
+        printFile.addActionListener(this);
+        printFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
+        menuFile.add(printFile);
 
         // Close File
         /*
@@ -288,15 +295,15 @@ public class UI extends JFrame implements ActionListener {
         quickFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
         menuFind.add(quickFind);
 
-        // About Me
-        aboutMe.addActionListener(this);
-        aboutMe.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        menuAbout.add(aboutMe);
+//        // About Me
+//        aboutMe.addActionListener(this);
+//        aboutMe.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+//        menuAbout.add(aboutMe);
 
         // About Software
-        aboutSoftware.addActionListener(this);
-        aboutSoftware.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
-        menuAbout.add(aboutSoftware);
+       // aboutSoftware.addActionListener(this);
+       // aboutSoftware.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+       // menuAbout.add(aboutSoftware);
 
         mainToolbar = new JToolBar();
         this.add(mainToolbar, BorderLayout.NORTH);
@@ -319,6 +326,13 @@ public class UI extends JFrame implements ActionListener {
         mainToolbar.add(saveButton);
         mainToolbar.addSeparator();
 
+        printButton = new JButton(printIcon);
+        printButton.setToolTipText("Print");
+        printButton.addActionListener(this);
+        mainToolbar.add(printButton);
+        mainToolbar.addSeparator();
+
+
         clearButton = new JButton(clearIcon);
         clearButton.setToolTipText("Clear All");
         clearButton.addActionListener(this);
@@ -331,17 +345,17 @@ public class UI extends JFrame implements ActionListener {
         mainToolbar.add(quickButton);
         mainToolbar.addSeparator();
 
-        aboutMeButton = new JButton(aboutMeIcon);
-        aboutMeButton.setToolTipText("About Me");
-        aboutMeButton.addActionListener(this);
-        mainToolbar.add(aboutMeButton);
-        mainToolbar.addSeparator();
+       // aboutMeButton = new JButton(aboutMeIcon);
+       // aboutMeButton.setToolTipText("About Me");
+      //  aboutMeButton.addActionListener(this);
+      //  mainToolbar.add(aboutMeButton);
+      //  mainToolbar.addSeparator();
 
-        aboutButton = new JButton(aboutIcon);
-        aboutButton.setToolTipText("About NotePad PH");
-        aboutButton.addActionListener(this);
-        mainToolbar.add(aboutButton);
-        mainToolbar.addSeparator();
+//        aboutButton = new JButton(aboutIcon);
+//        aboutButton.setToolTipText("About NotePad PH");
+//        aboutButton.addActionListener(this);
+//        mainToolbar.add(aboutButton);
+//        mainToolbar.addSeparator();
 
         closeButton = new JButton(closeIcon);
         closeButton.setToolTipText("Quit");
@@ -529,7 +543,16 @@ public class UI extends JFrame implements ActionListener {
                     System.err.println(ex.getMessage());
                 }
             }
-        } // If the source of the event was the "save" option
+        }
+        // If the source was the "print" option
+        else if (e.getSource() == printFile || e.getSource() == printButton) {
+            try {
+                 textArea.print();
+            } catch (PrinterException e1) {
+                e1.printStackTrace();
+                
+            }
+        }// If the source of the event was the "save" option
         else if (e.getSource() == saveFile || e.getSource() == saveButton) {
             saveFile();
         }// If the source of the event was the "Bold" button
@@ -561,12 +584,12 @@ public class UI extends JFrame implements ActionListener {
         if (e.getSource() == quickFind || e.getSource() == quickButton) {
             new Find(textArea);
         } // About Me
-        else if (e.getSource() == aboutMe || e.getSource() == aboutMeButton) {
-            new About(this).me();
-        } // About Software
-        else if (e.getSource() == aboutSoftware || e.getSource() == aboutButton) {
-            new About(this).software();
-        }
+       // else if (e.getSource() == aboutMe || e.getSource() == aboutMeButton) {
+         //   new About(this).me();
+        //} // About Software
+        //else if (e.getSource() == aboutSoftware || e.getSource() == aboutButton) {
+        //    new About(this).software();
+       // }
     }
 
     class SelectAllAction extends AbstractAction {
