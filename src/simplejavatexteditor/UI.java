@@ -56,12 +56,17 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledEditorKit;
 
 public class UI extends JFrame implements ActionListener {
+    private JComboBox<String> textAlignComboBox;
 
     private final String[] dragDropExtensionFilter = {".txt", ".dat", ".log", ".xml", ".mf", ".html"};
     private static long serialVersionUID = 1L;
     private final JTextArea textArea;
+    private static final String [] TEXT_ALIGNMENTS = {"Text Align", "Left", "Center", "Right", "Justified"};
     private final JMenuBar menuBar;
     private final JComboBox<String> fontType;
     private final JComboBox<Integer> fontSize;
@@ -69,12 +74,14 @@ public class UI extends JFrame implements ActionListener {
     private final JMenuItem newFile, openFile,printFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
              wordWrap;
     private final JToolBar mainToolbar;
-    JButton newButton, openButton, saveButton, clearButton, quickButton, printButton, closeButton, boldButton, italicButton;
+    JButton newButton, openButton, saveButton, clearButton, quickButton, printButton, closeButton, boldButton, italicButton,colorButton,alignButton;
     private final Action selectAllAction;
 
     //setup icons - Bold and Italic
     private final ImageIcon boldIcon = new ImageIcon("icons/bold.png");
     private final ImageIcon italicIcon = new ImageIcon("icons/italic.png");
+    private final ImageIcon colorIcon = new ImageIcon("icons/color.png");
+    private final ImageIcon alignIcon = new ImageIcon("icons/align.png");
 
     // setup icons - File Menu
     private final ImageIcon newIcon = new ImageIcon("icons/new.png");
@@ -213,15 +220,7 @@ public class UI extends JFrame implements ActionListener {
         printFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
         menuFile.add(printFile);
 
-        // Close File
-        /*
-         * Along with our "CTRL+F4" shortcut to close the window, we also have
-         * the default closer, as stated at the beginning of this tutorial. this
-         * means that we actually have TWO shortcuts to close:
-         * 1) the default close operation (example, Alt+F4 on Windows)
-         * 2) CTRL+F4, which we are
-         * about to define now: (this one will appear in the label).
-         */
+
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
         close.addActionListener(this);
         menuFile.add(close);
@@ -374,6 +373,17 @@ public class UI extends JFrame implements ActionListener {
         italicButton.addActionListener(this);
         mainToolbar.add(italicButton);
         mainToolbar.addSeparator();
+
+        textAlignComboBox = new JComboBox<String>(TEXT_ALIGNMENTS);
+        textAlignComboBox.setEditable(false);
+        textAlignComboBox.addItemListener(new TextAlignItemListener());
+        mainToolbar.add(textAlignComboBox);
+
+//        alignButton = new JButton(alignIcon);
+//        alignButton.setToolTipText("Align");
+//        alignButton.addActionListener(this);
+//        mainToolbar.add(alignButton);
+//        mainToolbar.addSeparator();
         /**
          * **************** FONT SETTINGS SECTION **********************
          */
@@ -427,6 +437,26 @@ public class UI extends JFrame implements ActionListener {
         });
         //FONT SIZE SETTINGS SECTION END
     }
+    private class TextAlignItemListener implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+
+            if ((e.getStateChange() != ItemEvent.SELECTED) ||
+                    (textAlignComboBox.getSelectedIndex() == 0)) {
+
+                return;
+            }
+
+            String alignmentStr = (String) e.getItem();
+            int newAlignment = textAlignComboBox.getSelectedIndex() - 1;
+            // New alignment is set based on these values defined in StyleConstants:
+            // ALIGN_LEFT 0, ALIGN_CENTER 1, ALIGN_RIGHT 2, ALIGN_JUSTIFIED 3
+            textAlignComboBox.setAction(new StyledEditorKit.AlignmentAction(alignmentStr, newAlignment));
+            textAlignComboBox.setSelectedIndex(0); // initialize to (default) select
+            textArea.requestFocusInWindow();
+        }
+    } // TextAlignItemListener
 
     @Override
     protected void processWindowEvent(WindowEvent e) {
@@ -557,6 +587,9 @@ public class UI extends JFrame implements ActionListener {
             saveFile();
         }// If the source of the event was the "Bold" button
         else if (e.getSource() == boldButton) {
+            JTextArea ta=new JTextArea();
+            String s=textArea.getSelectedText();
+
             if (textArea.getFont().getStyle() == Font.BOLD) {
                 textArea.setFont(textArea.getFont().deriveFont(Font.PLAIN));
             } else {
@@ -570,6 +603,9 @@ public class UI extends JFrame implements ActionListener {
                 textArea.setFont(textArea.getFont().deriveFont(Font.ITALIC));
             }
         }
+        else if (e.getSource() == alignButton) {
+
+        }// If the source of the event was the "Italic" button
         // Clear File (Code)
         if (e.getSource() == clearFile || e.getSource() == clearButton) {
 
@@ -583,13 +619,7 @@ public class UI extends JFrame implements ActionListener {
         // Find
         if (e.getSource() == quickFind || e.getSource() == quickButton) {
             new Find(textArea);
-        } // About Me
-       // else if (e.getSource() == aboutMe || e.getSource() == aboutMeButton) {
-         //   new About(this).me();
-        //} // About Software
-        //else if (e.getSource() == aboutSoftware || e.getSource() == aboutButton) {
-        //    new About(this).software();
-       // }
+        }
     }
 
     class SelectAllAction extends AbstractAction {
