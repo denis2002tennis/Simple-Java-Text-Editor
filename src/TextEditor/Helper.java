@@ -1,6 +1,7 @@
 package TextEditor;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class Helper {
     public static void buttonIns(JButton button,String text, ImageIcon imageIcon){
@@ -9,4 +10,5 @@ public class Helper {
         button.setToolTipText(text);
 
     }
+
 }

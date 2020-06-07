@@ -1,5 +1,7 @@
 package TextEditor;
 
+import simplejavatexteditor.UI;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Insets;
@@ -61,9 +63,17 @@ public class MyEditor {
     private String pictureButtonName__;
     private File file__;
 
-    enum BulletActionType {INSERT, REMOVE};
-    enum NumbersActionType {INSERT, REMOVE};
-    enum UndoActionType {UNDO, REDO};
+    enum BulletActionType {INSERT, REMOVE}
+
+    ;
+
+    enum NumbersActionType {INSERT, REMOVE}
+
+    ;
+
+    enum UndoActionType {UNDO, REDO}
+
+    ;
 
     // This flag checks true if the caret position within a bulleted para
     // is at the first text position after the bullet (bullet char + space).
@@ -79,11 +89,11 @@ public class MyEditor {
     private static final String MAIN_TITLE = "My Editor - ";
     private static final String DEFAULT_FONT_FAMILY = "SansSerif";
     private static final int DEFAULT_FONT_SIZE = 18;
-    private static final List<String> FONT_LIST = Arrays.asList(new String [] {"Arial", "Calibri", "Cambria", "Courier New", "Comic Sans MS", "Dialog", "Georgia", "Helevetica", "Lucida Sans", "Monospaced", "Tahoma", "Times New Roman", "Verdana"});
-    private static final String [] FONT_SIZES  = {"Font Size", "12", "14", "16", "18", "20", "22", "24", "26", "28", "30"};
-    private static final String [] TEXT_ALIGNMENTS = {"Text Align", "Left", "Center", "Right", "Justified"};
+    private static final List<String> FONT_LIST = Arrays.asList(new String[]{"Arial", "Calibri", "Cambria", "Courier New", "Comic Sans MS", "Dialog", "Georgia", "Helevetica", "Lucida Sans", "Monospaced", "Tahoma", "Times New Roman", "Verdana"});
+    private static final String[] FONT_SIZES = {"Font Size", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
+    private static final String[] TEXT_ALIGNMENTS = {"Text Align", "Left", "Center", "Right", "Justified"};
     private static final char BULLET_CHAR = '\u2022';
-    private static final String BULLET_STR = new String(new char [] {BULLET_CHAR});
+    private static final String BULLET_STR = new String(new char[]{BULLET_CHAR});
     private static final String BULLET_STR_WITH_SPACE = BULLET_STR + " ";
     private static final int BULLET_LENGTH = BULLET_STR_WITH_SPACE.length();
     private static final String NUMBERS_ATTR = "NUMBERS";
@@ -122,7 +132,7 @@ public class MyEditor {
     JButton underlineButton = new JButton(new UnderlineAction());
     JButton colorButton = new JButton();
 
-    public static void main(String [] args)
+    public static void main(String[] args)
             throws Exception {
 
         UIManager.put("TextPane.font",
@@ -155,22 +165,22 @@ public class MyEditor {
         EditButtonActionListener editButtonActionListener =
                 new EditButtonActionListener();
 
-        Helper.buttonIns(cutButton,"Cut",cutIcon);
+        Helper.buttonIns(cutButton, "Cut", cutIcon);
         cutButton.addActionListener(editButtonActionListener);
 
-        Helper.buttonIns(copyButton,"Copy",copyIcon);
+        Helper.buttonIns(copyButton, "Copy", copyIcon);
         copyButton.addActionListener(editButtonActionListener);
 
-        Helper.buttonIns(pasteButton,"Paste",pasteIcon);
+        Helper.buttonIns(pasteButton, "Paste", pasteIcon);
         pasteButton.addActionListener(editButtonActionListener);
 
-        Helper.buttonIns(boldButton,"Bold",boldIcon);
+        Helper.buttonIns(boldButton, "Bold", boldIcon);
         boldButton.addActionListener(editButtonActionListener);
 
-        Helper.buttonIns(italicButton,"Italic",italicIcon);
+        Helper.buttonIns(italicButton, "Italic", italicIcon);
         italicButton.addActionListener(editButtonActionListener);
 
-        Helper.buttonIns(underlineButton,"Underline",underlineIcon);
+        Helper.buttonIns(underlineButton, "Underline", underlineIcon);
         underlineButton.addActionListener(editButtonActionListener);
 
         colorButton.setIcon(colorIcon);
@@ -180,8 +190,8 @@ public class MyEditor {
         textAlignComboBox__ = new JComboBox<String>(TEXT_ALIGNMENTS);
         textAlignComboBox__.setEditable(false);
         textAlignComboBox__.addItemListener(new TextAlignItemListener());
-         final JComboBox<String> fontType;
-         final JComboBox<Integer> fontSize;
+        final JComboBox<String> fontType;
+        final JComboBox<Integer> fontSize;
 
         fontType = new JComboBox<String>();
 
@@ -211,10 +221,10 @@ public class MyEditor {
         deletePictureButton.addActionListener(new PictureDeleteActionListener());
 
         JButton undoButton = new JButton();
-        Helper.buttonIns(undoButton,"Undo",undoIcon);
+        Helper.buttonIns(undoButton, "Undo", undoIcon);
         undoButton.addActionListener(new UndoActionListener(UndoActionType.UNDO));
         JButton redoButton = new JButton();
-        Helper.buttonIns(redoButton,"Redo",redoIcon);
+        Helper.buttonIns(redoButton, "Redo", redoIcon);
         redoButton.addActionListener(new UndoActionListener(UndoActionType.REDO));
 
 //        JButton bulletInsertButton = new JButton("Bullets Insert");
@@ -253,9 +263,6 @@ public class MyEditor {
         panel1.add(insertPictureButton);
 
 
-
-
-
         JPanel toolBarPanel = new JPanel();
         toolBarPanel.setLayout(new BoxLayout(toolBarPanel, BoxLayout.PAGE_AXIS));
         toolBarPanel.add(panel1);
@@ -270,19 +277,19 @@ public class MyEditor {
         JMenu editMenu = new JMenu("Edit");
         fileMenu.setMnemonic(KeyEvent.VK_E);
 
-        JMenuItem newItem	= new JMenuItem("New");
+        JMenuItem newItem = new JMenuItem("New", newIcon);
         newItem.setMnemonic(KeyEvent.VK_N);
         newItem.addActionListener(new NewFileListener());
-        JMenuItem openItem	= new JMenuItem("Open");
+        JMenuItem openItem = new JMenuItem("Open", openIcon);
         openItem.setMnemonic(KeyEvent.VK_O);
         openItem.addActionListener(new OpenFileListener());
-        JMenuItem saveItem	= new JMenuItem("Save");
+        JMenuItem saveItem = new JMenuItem("Save", saveIcon);
         saveItem.setMnemonic(KeyEvent.VK_S);
         saveItem.addActionListener(new SaveFileListener());
-        JMenuItem printItem	= new JMenuItem("Print");
+        JMenuItem printItem = new JMenuItem("Print", printIcon);
         printItem.setMnemonic(KeyEvent.VK_P);
         printItem.addActionListener(new OpenFileListener());
-        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem exitItem = new JMenuItem("Exit", closeIcon);
         exitItem.setMnemonic(KeyEvent.VK_X);
         exitItem.addActionListener(new ActionListener() {
             @Override
@@ -291,13 +298,19 @@ public class MyEditor {
                 System.exit(0);
             }
         });
-
         fileMenu.add(newItem);
-        fileMenu.addSeparator();
         fileMenu.add(openItem);
         fileMenu.add(saveItem);
+        fileMenu.addSeparator();
         fileMenu.add(printItem);
+        fileMenu.addSeparator();
         fileMenu.add(exitItem);
+
+
+
+        JMenuItem selectAll = new JMenuItem(new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A), textPane));
+        editMenu.add(selectAll);
+
 
         //TODO
         // Select All Text
@@ -323,6 +336,7 @@ public class MyEditor {
 
 
         menuBar.add(fileMenu);
+        menuBar.add(editMenu);
         frame__.setJMenuBar(menuBar);
 
         frame__.setSize(1030, 500);
@@ -332,7 +346,6 @@ public class MyEditor {
 
         textPane.requestFocusInWindow();
     }
-
 
 
     private void setFrameTitleWithExtn(String titleExtn) {
@@ -353,7 +366,7 @@ public class MyEditor {
      */
     private Vector<String> getEditorFonts() {
 
-        String [] availableFonts =
+        String[] availableFonts =
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         Vector<String> returnList = new Vector<>();
 
@@ -434,8 +447,7 @@ public class MyEditor {
 
             try {
                 newFontSize = Integer.parseInt(fontSizeStr);
-            }
-            catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
 
                 return;
             }
@@ -444,7 +456,7 @@ public class MyEditor {
             fontSizeComboBox__.setSelectedIndex(0); // initialize to (default) select
             textPane.requestFocusInWindow();
         }
-    } // FontSizeItemListener
+    }
 
     private class FontFamilyItemListener implements ItemListener {
 
@@ -488,7 +500,7 @@ public class MyEditor {
             switch (undoActionType) {
 
                 case UNDO:
-                    if (! undoMgr__.canUndo()) {
+                    if (!undoMgr__.canUndo()) {
 
                         textPane.requestFocusInWindow();
                         return; // no edits to undo
@@ -498,7 +510,7 @@ public class MyEditor {
                     break;
 
                 case REDO:
-                    if (! undoMgr__.canRedo()) {
+                    if (!undoMgr__.canRedo()) {
 
                         textPane.requestFocusInWindow();
                         return; // no edits to redo
@@ -510,6 +522,24 @@ public class MyEditor {
             textPane.requestFocusInWindow();
         }
     } // UndoActionListener
+
+    class SelectAllAction extends AbstractAction {
+
+        /**
+         * Used for Select All function
+         */
+        private static final long serialVersionUID = 1L;
+
+        public SelectAllAction(String text, ImageIcon icon, String desc, Integer mnemonic, final JTextPane textPane) {
+            super(text, icon);
+            putValue(SHORT_DESCRIPTION, desc);
+            putValue(MNEMONIC_KEY, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            textPane.selectAll();
+        }
+    }
 
     private class PictureInsertActionListener implements ActionListener {
 
@@ -527,7 +557,7 @@ public class MyEditor {
             ImageIcon icon = new ImageIcon(pictureFile.toString());
             JButton picButton = new JButton(icon);
             picButton.setBorder(new LineBorder(Color.WHITE));
-            picButton.setMargin(new Insets(0,0,0,0));
+            picButton.setMargin(new Insets(0, 0, 0, 0));
             picButton.setAlignmentY(.9f);
             picButton.setAlignmentX(.9f);
             picButton.addFocusListener(new PictureFocusListener());
@@ -546,8 +576,7 @@ public class MyEditor {
             if (chooser.showOpenDialog(frame__) == JFileChooser.APPROVE_OPTION) {
 
                 return chooser.getSelectedFile();
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -591,8 +620,7 @@ public class MyEditor {
 
                         try {
                             doc.remove(element.getStartOffset(), 1); // length = 1
-                        }
-                        catch (BadLocationException ex_) {
+                        } catch (BadLocationException ex_) {
 
                             throw new RuntimeException(ex_);
                         }
@@ -662,8 +690,8 @@ public class MyEditor {
                 switch (bulletActionType) {
 
                     case INSERT:
-                        if ((! isBulletedPara(paraEleStart)) &&
-                                (! isNumberedPara(paraEleStart))) {
+                        if ((!isBulletedPara(paraEleStart)) &&
+                                (!isNumberedPara(paraEleStart))) {
 
                             insertBullet(paraEleStart, paraEleStart);
                         }
@@ -706,8 +734,7 @@ public class MyEditor {
 
         try {
             firstChar = textPane.getText(paraEleStart, 1);
-        }
-        catch (BadLocationException ex) {
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -720,7 +747,7 @@ public class MyEditor {
         AttributeSet attrSet = getParaStartAttributes(paraEleStart);
         Integer paraNum = (Integer) attrSet.getAttribute(NUMBERS_ATTR);
 
-        if ((paraNum == null) || (! isFirstCharNumber(paraEleStart))) {
+        if ((paraNum == null) || (!isFirstCharNumber(paraEleStart))) {
 
             return false;
         }
@@ -745,8 +772,7 @@ public class MyEditor {
             getEditorDocument().insertString(insertPos,
                     BULLET_STR_WITH_SPACE,
                     getParaStartAttributes(attributesPos));
-        }
-        catch(BadLocationException ex) {
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -755,7 +781,7 @@ public class MyEditor {
     private AttributeSet getParaStartAttributes(int pos) {
 
         StyledDocument doc = (DefaultStyledDocument) textPane.getDocument();
-        Element	charEle = doc.getCharacterElement(pos);
+        Element charEle = doc.getCharacterElement(pos);
         return charEle.getAttributes();
     }
 
@@ -783,8 +809,7 @@ public class MyEditor {
 
         try {
             getEditorDocument().remove(removePos, length);
-        }
-        catch(BadLocationException ex) {
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -818,7 +843,7 @@ public class MyEditor {
             bulletedPara_ = false;
             int pos = textPane.getCaretPosition();
 
-            if (! isBulletedParaForPos(pos)) {
+            if (!isBulletedParaForPos(pos)) {
 
                 return;
             }
@@ -829,14 +854,18 @@ public class MyEditor {
             switch (e.getKeyCode()) {
 
                 case KeyEvent.VK_LEFT: // same as that of VK_KP_LEFT
-                case KeyEvent.VK_KP_LEFT: int newPos = pos - (BULLET_LENGTH + 1);
+                case KeyEvent.VK_KP_LEFT:
+                    int newPos = pos - (BULLET_LENGTH + 1);
                     doLeftArrowKeyRoutine(newPos, startPosPlusBullet__);
                     break;
-                case KeyEvent.VK_DELETE: doDeleteKeyRoutine(paraEle, pos);
+                case KeyEvent.VK_DELETE:
+                    doDeleteKeyRoutine(paraEle, pos);
                     break;
-                case KeyEvent.VK_BACK_SPACE: doBackspaceKeyRoutine(paraEle);
+                case KeyEvent.VK_BACK_SPACE:
+                    doBackspaceKeyRoutine(paraEle);
                     break;
-                case KeyEvent.VK_ENTER: getPrevParaDetails(pos);
+                case KeyEvent.VK_ENTER:
+                    getPrevParaDetails(pos);
             }
 
         } // keyPressed()
@@ -858,7 +887,7 @@ public class MyEditor {
         // in the keyReleased() method: prevParaEleStart_ and prevParaText_
         private void getPrevParaDetails(int pos) {
 
-            pos =  pos - 1;
+            pos = pos - 1;
 
             if (isBulletedParaForPos(pos)) {
 
@@ -908,14 +937,15 @@ public class MyEditor {
         @Override
         public void keyReleased(KeyEvent e) {
 
-            if (! bulletedPara_) {
+            if (!bulletedPara_) {
 
                 return;
             }
 
             switch (e.getKeyCode()) {
 
-                case KeyEvent.VK_ENTER: doEnterKeyRoutine();
+                case KeyEvent.VK_ENTER:
+                    doEnterKeyRoutine();
                     break;
             }
         }
@@ -950,9 +980,8 @@ public class MyEditor {
 
         try {
             prevParaText = getEditorDocument().getText(prevParaEleStart,
-                    (prevParaEleEnd -  prevParaEleStart));
-        }
-        catch(BadLocationException ex) {
+                    (prevParaEleEnd - prevParaEleStart));
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -971,7 +1000,7 @@ public class MyEditor {
      */
     private void doLeftArrowKeyRoutine(int pos, boolean startTextPos) {
 
-        if (! startTextPos) {
+        if (!startTextPos) {
 
             return;
         }
@@ -1022,32 +1051,26 @@ public class MyEditor {
                 if (e.getDot() == (paraEleStart + BULLET_LENGTH)) {
 
                     startPosPlusBullet__ = true;
-                }
-                else if (e.getDot() < (paraEleStart + BULLET_LENGTH)) {
+                } else if (e.getDot() < (paraEleStart + BULLET_LENGTH)) {
 
                     textPane.setCaretPosition(paraEleStart + BULLET_LENGTH);
-                }
-                else {
+                } else {
                     // continue
                 }
-            }
-            else if (isNumberedPara(paraEleStart)) {
+            } else if (isNumberedPara(paraEleStart)) {
 
                 int numLen = getNumberLength(paraEleStart);
 
                 if (e.getDot() < (paraEleStart + numLen)) {
 
                     textPane.setCaretPosition(paraEleStart + numLen);
-                }
-                else if (e.getDot() == (paraEleStart + numLen)) {
+                } else if (e.getDot() == (paraEleStart + numLen)) {
 
                     startPosPlusNum__ = true;
-                }
-                else {
+                } else {
                     // continue
                 }
-            }
-            else {
+            } else {
                 // not a bulleted or numbered para
             }
         }
@@ -1150,7 +1173,7 @@ public class MyEditor {
                             removeNumber(paraEleStart, getNumberLength(paraEleStart));
                         }
 
-                        if (! isNumberedPara(paraEleStart)) {
+                        if (!isNumberedPara(paraEleStart)) {
 
                             Integer nextN = new Integer(++n);
                             insertNumber(paraEleStart, paraEleStart, nextN);
@@ -1202,8 +1225,7 @@ public class MyEditor {
             getEditorDocument().insertString(insertPos,
                     getNumberString(num),
                     getNumbersAttributes(attributesPos, num));
-        }
-        catch(BadLocationException ex) {
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -1247,8 +1269,7 @@ public class MyEditor {
 
         try {
             getEditorDocument().remove(removePos, length);
-        }
-        catch(BadLocationException ex) {
+        } catch (BadLocationException ex) {
 
             throw new RuntimeException(ex);
         }
@@ -1287,8 +1308,7 @@ public class MyEditor {
             if ((selectedText == null) || (selectedText.trim().isEmpty())) {
 
                 // continue, processing key press without any selected text
-            }
-            else {
+            } else {
                 // text is selected within numbered para and a key is pressed
                 doReplaceSelectionRoutine();
                 return;
@@ -1297,7 +1317,7 @@ public class MyEditor {
             numberedPara_ = false;
             int pos = textPane.getCaretPosition();
 
-            if (! isNumberedParaForPos(pos)) {
+            if (!isNumberedParaForPos(pos)) {
 
                 return;
             }
@@ -1308,15 +1328,19 @@ public class MyEditor {
             switch (e.getKeyCode()) {
 
                 case KeyEvent.VK_LEFT: // same as that of VK_KP_LEFT
-                case KeyEvent.VK_KP_LEFT: int newPos = pos -
-                        (getNumberLength(paraEleStart) + 1);
+                case KeyEvent.VK_KP_LEFT:
+                    int newPos = pos -
+                            (getNumberLength(paraEleStart) + 1);
                     doLeftArrowKeyRoutine(newPos, startPosPlusNum__);
                     break;
-                case KeyEvent.VK_DELETE: doDeleteKeyRoutine(paraEle, pos);
+                case KeyEvent.VK_DELETE:
+                    doDeleteKeyRoutine(paraEle, pos);
                     break;
-                case KeyEvent.VK_BACK_SPACE: doBackspaceKeyRoutine(paraEle);
+                case KeyEvent.VK_BACK_SPACE:
+                    doBackspaceKeyRoutine(paraEle);
                     break;
-                case KeyEvent.VK_ENTER: getPrevParaDetails(pos);
+                case KeyEvent.VK_ENTER:
+                    getPrevParaDetails(pos);
                     break;
             }
 
@@ -1356,7 +1380,7 @@ public class MyEditor {
 
             // No numbered text at bottom, no processing required -or-
             // no next para after selection end (end of document text).
-            if ((! isNumberedPara(bottomParaEleStart)) ||
+            if ((!isNumberedPara(bottomParaEleStart)) ||
                     (bottomParaEleEnd > doc.getLength())) {
 
                 return;
@@ -1366,7 +1390,7 @@ public class MyEditor {
             Element paraEle = doc.getParagraphElement(bottomParaEleEnd + 1);
             int paraEleStart = paraEle.getStartOffset();
 
-            if (! isNumberedPara(paraEleStart)) {
+            if (!isNumberedPara(paraEleStart)) {
 
                 return;
             }
@@ -1381,8 +1405,7 @@ public class MyEditor {
                 // there are numbered items following the removed para;
                 // bottom numbers start from numTop + 1.
                 doNewNumbers(paraEleStart, numTop);
-            }
-            else {
+            } else {
                 // numTop == null
                 // There are no numbered items above the removed para, and
                 // there are numbered items following the removed para;
@@ -1440,8 +1463,7 @@ public class MyEditor {
                         getNumberString(prevNum).length(),
                         getNumberString(newNum),
                         getNumbersAttributes(nextParaEleStart, newNum));
-            }
-            catch(BadLocationException ex) {
+            } catch (BadLocationException ex) {
 
                 throw new RuntimeException(ex);
             }
@@ -1483,12 +1505,12 @@ public class MyEditor {
 
             // Get bottom para element details
             Element bottomParaEle = doc.getParagraphElement(paraEleEnd + 1);
-            int bottomParaEleStart = bottomParaEle .getStartOffset();
+            int bottomParaEleStart = bottomParaEle.getStartOffset();
 
             // In case bottom para is not numbered or end of document,
             // no re-numbering is required.
             if ((paraEleEnd > doc.getLength()) ||
-                    (! isNumberedPara(bottomParaEleStart))) {
+                    (!isNumberedPara(bottomParaEleStart))) {
 
                 return;
             }
@@ -1519,7 +1541,7 @@ public class MyEditor {
             Element bottomParaEle = doc.getParagraphElement(paraEle.getEndOffset() + 1);
             int bottomParaEleStart = bottomParaEle.getStartOffset();
 
-            if (! isNumberedPara(bottomParaEleStart)) {
+            if (!isNumberedPara(bottomParaEleStart)) {
 
                 return; // there are no numbers following this para, and
                 // no re-numbering required.
@@ -1533,8 +1555,7 @@ public class MyEditor {
 
                 // beginning of document, no top para exists
                 // before the document start; numTop = null
-            }
-            else {
+            } else {
                 Element topParaEle = doc.getParagraphElement(paraEleStart - 1);
                 numTop = getParaNumber(topParaEle.getStartOffset());
             }
@@ -1545,8 +1566,7 @@ public class MyEditor {
                 // there are numbered items following the removed para;
                 // bottom numbers start from 1.
                 doNewNumbers(bottomParaEleStart, 0);
-            }
-            else {
+            } else {
                 // numTop != null
                 // There are numbered items above the removed para, and
                 // there are numbered items following the removed para;
@@ -1560,7 +1580,7 @@ public class MyEditor {
         // in the keyReleased() method: prevParaEleStart_ and prevParaText_
         private void getPrevParaDetails(int pos) {
 
-            pos =  pos - 1;
+            pos = pos - 1;
 
             if (isNumberedParaForPos(pos)) {
 
@@ -1575,14 +1595,15 @@ public class MyEditor {
         @Override
         public void keyReleased(KeyEvent e) {
 
-            if (! numberedPara_) {
+            if (!numberedPara_) {
 
                 return;
             }
 
             switch (e.getKeyCode()) {
 
-                case KeyEvent.VK_ENTER: doEnterKeyRoutine();
+                case KeyEvent.VK_ENTER:
+                    doEnterKeyRoutine();
                     break;
             }
         }
@@ -1679,8 +1700,7 @@ public class MyEditor {
             if (chooser.showOpenDialog(frame__) == JFileChooser.APPROVE_OPTION) {
 
                 return chooser.getSelectedFile();
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -1693,13 +1713,11 @@ public class MyEditor {
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
 
                 doc = (DefaultStyledDocument) ois.readObject();
-            }
-            catch (FileNotFoundException ex) {
+            } catch (FileNotFoundException ex) {
 
                 JOptionPane.showMessageDialog(frame__, "Input file was not found!");
                 return;
-            }
-            catch (ClassNotFoundException | IOException ex) {
+            } catch (ClassNotFoundException | IOException ex) {
 
                 throw new RuntimeException(ex);
             }
@@ -1748,8 +1766,7 @@ public class MyEditor {
                  ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
                 oos.writeObject(doc);
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
 
                 throw new RuntimeException(ex);
             }
@@ -1764,8 +1781,7 @@ public class MyEditor {
             if (chooser.showSaveDialog(frame__) == JFileChooser.APPROVE_OPTION) {
 
                 return chooser.getSelectedFile();
-            }
-            else {
+            } else {
                 return null;
             }
         }
