@@ -27,14 +27,10 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.event.UndoableEditEvent;
 
 import java.io.*;
-import java.util.List;
 import java.util.Vector;
-import java.util.Arrays;
 import java.util.Random;
 
-/*
- * A text editor program with basic edit and format functions.
- */
+
 public class TextEditor {
 
 
@@ -102,12 +98,9 @@ public class TextEditor {
         UIManager.put("TextPane.font",
                 new Font(DEFAULT_FONT_FAMILY, Font.PLAIN, DEFAULT_FONT_SIZE));
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
-
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
-
                 new TextEditor().createAndShowGUI();
             }
         });
@@ -150,7 +143,6 @@ public class TextEditor {
 
         fontFamilyComboBox = new JComboBox<String>();
 
-        //GETTING ALL AVAILABLE FONT FOMILY NAMES
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
         for (int i = 0; i < fonts.length; i++) {
@@ -165,7 +157,6 @@ public class TextEditor {
         textAlignComboBox.setEditable(false);
         textAlignComboBox.addItemListener(new TextAlignItemListener());
         final JComboBox<String> fontType;
-        final JComboBox<Integer> fontSize;
 
         fontType = new JComboBox<String>();
 
@@ -196,7 +187,6 @@ public class TextEditor {
         JButton redoButton = new JButton();
         Helper.buttonIns(redoButton, "Redo", redoIcon);
         redoButton.addActionListener(new UndoActionListener(UndoActionType.REDO));
-
 
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel1.add(fontFamilyComboBox);
@@ -599,9 +589,6 @@ public class TextEditor {
             ((JButton) e.getComponent()).setBorder(new LineBorder(Color.WHITE));
         }
     }
-
-
-
 
     private class NewFileListener implements ActionListener {
 

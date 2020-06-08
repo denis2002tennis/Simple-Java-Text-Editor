@@ -20,10 +20,4 @@ public class Helper {
     }
 
 
-    public static void itemFiler(JMenuItem item,String text, ImageIcon imageIcon,KeyStroke keyStroke){
-         item = new JMenuItem(text, imageIcon);
-        item.setAccelerator(keyStroke);
-        //item.addActionListener(new MyEditor.NewFileListener());
-    }
-
 }
